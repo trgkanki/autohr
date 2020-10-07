@@ -15,7 +15,7 @@
 
 # -*- coding: utf-8 -*-
 #
-# autohr v20.5.4i8
+# autohr v20.10.7i141
 #
 # Copyright: trgk (phu54321@naver.com)
 # License: GNU AGPL, version 3 or later;

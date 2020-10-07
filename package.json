@@ -1,6 +1,6 @@
 {
   "name": "autohr",
-  "version": "20.5.4i8",
+  "version": "20.10.7i141",
   "description": "template for trgkanki's addon",
   "scripts": {
     "postinstall": "python3 -m pip install -r requirements.txt",
