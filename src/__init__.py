@@ -21,16 +21,33 @@
 # License: GNU AGPL, version 3 or later;
 # See http://www.gnu.org/licenses/agpl.html
 
+import re
+
 from aqt.editor import Editor
 from anki.hooks import wrap
-from aqt.utils import askUser
 
 from .utils import openChangelog
 from .utils import uuid  # duplicate UUID checked here
 
 
-def onLoadNote(self, focusTo=None):
-    pass
+def beforeSaveNow(self, callback, keepFocus=False, *, _old):
+    def newCallback():
+        # self.note may be None when edwitor isn't yet initialized.
+        # ex: entering browser
+        if self.note:
+            note = self.note
+            for key in note.keys():
+                html = note[key]
+                html = re.sub(r"-{3,}", "<hr>", html)
+                note[key] = html
+
+            if not self.addMode:
+                note.flush()
+                self.mw.requireReset()
+
+        callback()
+
+    return _old(self, newCallback, keepFocus)
 
 
-Editor.loadNote = wrap(Editor.loadNote, onLoadNote, "after")
+Editor.saveNow = wrap(Editor.saveNow, beforeSaveNow, "around")
